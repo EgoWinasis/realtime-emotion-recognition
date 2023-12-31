@@ -1,4 +1,4 @@
-# Realtime Emotion Recognition
+# Realtime Emotion Recognition APP GUI
 
 ## Introduction
 
@@ -25,16 +25,8 @@ cd Emotion-detection
 * If you want to train this model, use:  
 
 ```bash
-cd src
-python emotions.py --mode train
-```
-
-* If you want to view the predictions without training again, you can download the pre-trained model from [here](https://drive.google.com/file/d/1FUn0XNOzf-nQV7QjbBPA6-8GLoHNNgv-/view?usp=sharing) and then run:  
-
-```bash
-cd src
-python emotions.py --mode display
-```
+run file uas_python_gui.ipynb
+``` 
 
 * The folder structure is of the form:  
   src:
