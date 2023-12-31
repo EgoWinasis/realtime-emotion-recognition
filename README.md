@@ -17,7 +17,7 @@ The repository is currently compatible with `tensorflow-2.0` and makes use of th
 
 ```bash
 git clone https://github.com/EgoWinasis/realtime-emotion-recognition.git
-cd Emotion-detection
+cd realtime-emotion-recognition
 ```
 
 * Download the FER-2013 dataset inside the `src` folder.
@@ -37,7 +37,6 @@ run file uas_python_gui.ipynb
 
 * This implementation by default detects emotions on all faces in the webcam feed. With a simple 4-layer CNN, the test accuracy reached 63.2% in 50 epochs.
 
-![Accuracy plot](imgs/accuracy.png)
 
 ## Data Preparation (optional)
 
