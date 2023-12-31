@@ -49,11 +49,20 @@ def plot_model_history(model_history):
 
 # Define data generators
 
-train_dir = './src/data/train'
-val_dir = './src/data/test'
+train_dir = 'src/data/train'
+val_dir = 'src/data/test'
 
 num_train = 28709
 num_val = 7178
+# num_train = 3000
+# num_val = 1000
+
+# Count the number of images in the train directory
+# num_train = sum(len(files) for _, _, files in os.walk(train_dir))
+
+# Count the number of images in the test directory
+# num_val = sum(len(files) for _, _, files in os.walk(val_dir))
+
 batch_size = batch_size
 num_epoch = num_epoch
 
@@ -95,26 +104,34 @@ model.add(Dense(7, activation='softmax'))
 
 # If you want to train the same model or try other models, go for this
 if mode == "train":
-    try:
-        print("Training Data")
-        optimizer = Adam(learning_rate=0.0001)  # Use 'learning_rate' instead of 'lr'
-        model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-        model_info = model.fit_generator(
-                train_generator,
-                steps_per_epoch=num_train // batch_size,
-                epochs=num_epoch,
-                validation_data=validation_generator,
-                validation_steps=num_val // batch_size)
-        plot_model_history(model_info)
-        model.save_weights('model.h5')
- 
-    except Exception as e:
-        print("error" + e)
+    print("Training Data")
+    optimizer = Adam(learning_rate=0.0001)
+    model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
+    model_info = model.fit(
+        train_generator,
+        steps_per_epoch=num_train // batch_size,
+        epochs=num_epoch,
+        validation_data=validation_generator,
+        validation_steps=num_val // batch_size)
 
+    print(f"Training loss: {model_info.history['loss'][-1]} - Accuracy: {model_info.history['accuracy'][-1]}")
+    print(f"Validation loss: {model_info.history['val_loss'][-1]} - Validation Accuracy: {model_info.history['val_accuracy'][-1]}")
+
+    # plot_model_history(model_info)
+     # Save model in src directory
+    src_dir = os.path.join(os.path.dirname(__file__))  # Get src directory path
+    model_path = os.path.join(src_dir, 'model.h5')  # Define model path in src folder
+
+    model.save_weights(model_path)
+    print("Model saved successfully at", model_path)
+
+    # except Exception as e:
+    #     print("Error during training:", str(e))
+    
 
 # emotions will be displayed on your face from the webcam feed
 elif mode == "display":
-    model.load_weights('./src/model.h5')
+    model.load_weights('src/model.h5')
 
     # prevents openCL usage and unnecessary logging messages
     cv2.ocl.setUseOpenCL(False)
